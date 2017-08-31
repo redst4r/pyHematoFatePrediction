@@ -23,12 +23,23 @@ BOKEH stuff
 -----------------------------------------------------------------------------------------
 """
 
+def normalize01(x):
+    'scale x into [0,1]'
+    return (x- x.min())/ (x- x.min()).max()
 
-def plot_image_bokeh(img, points=None):
+
+def plot_image_bokeh(img, points=None, cmap='Greys256'):
     # analog of matplotlib.pyplot.imshow()
     # optinally plots a cloud of points ontop of the image as a scatter
+
+    # to comply with thet usual imshow (origin in the upper left corner), flip the image along the row axis
+    img = img[::-1,:]
+    if points is not None:
+        n_rows = img.shape[0]  # the y-axis
+        points[:,1] = n_rows - points[:,1]  # also invert the scatter
+
+
     p = bp.figure(x_range=(0, img.shape[1]), y_range=(0, img.shape[0]))
-    cmap ='Greys256'
 
     p.image(image=[img], x=0, y=0, dw=img.shape[1], dh=img.shape[0], palette=cmap)
 
@@ -50,6 +61,9 @@ def plot_image_rgb_bokeh(I):
         the_image = np.dstack([the_image, np.ones(the_image.shape[:2], np.uint8) * 255])
 
     the_image = np.squeeze(the_image.view(np.uint32))
+
+    # to comply with imshow, flip the y-axis
+    the_image = the_image[::-1]
 
     p = bp.figure(x_range=(0, the_image.shape[1]), y_range=(0, the_image.shape[0]))
     p.image_rgba([the_image], x=0, y=0, dw=the_image.shape[1], dh=the_image.shape[0])
