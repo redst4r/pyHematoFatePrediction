@@ -90,7 +90,7 @@ def load_weights_caffe2keras(caffe_h5_weights, CNN, bn_trainable=True, other_par
     CNN.get_layer('conv3_BN').set_weights(BN_caffe2keras(conv3_BN_mean, conv3_BN_var))
     CNN.get_layer('conv3_BN').trainable = bn_trainable
 
-    CNN.get_layer('fc6_BN').set_weights(BN_caffe2keras(fc6_BN_mean[:-1], fc6_BN_var[:-1]))
+    CNN.get_layer('fc6_BN').set_weights(BN_caffe2keras(fc6_BN_mean, fc6_BN_var))
     CNN.get_layer('fc6_BN').trainable = bn_trainable
 
     CNN.get_layer('fc7_BN').set_weights(BN_caffe2keras(fc7_BN_mean, fc7_BN_var))

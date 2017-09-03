@@ -28,13 +28,17 @@ def load_pickle(pickle_file):
     return res
 
 
-def load_data(pickle_file, N, randomize=True):
+def load_data(pickle_file, N=None, randomize=True):
     # pickle_file = '../images_round3_test_annotated.pickle'
     res = load_pickle(pickle_file)
     X = []
     y = []
     movement = []
     cellIDs = []
+
+    if not N:
+        N = len(res['im'])
+    
     cell_indices = np.random.permutation(len(res['im']))[:N] if randomize else range(min(N, len(res['im'])))
 
     for i in cell_indices:
@@ -140,3 +144,11 @@ def get_auc(scores, truelabel, do_plot=False):
         plt.ylabel('TPR')
         plt.colorbar()
     return the_auc
+
+
+def ismember(a, b):
+    bind = {}
+    for i, elt in enumerate(b):
+        if elt not in bind:
+            bind[elt] = i
+    return [bind.get(itm, None) for itm in a]
