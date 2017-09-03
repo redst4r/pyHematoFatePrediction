@@ -94,6 +94,22 @@ def plot_segmentation(I, I_mask):
     plt.imshow(I_mask, cmap=plt.cm.Reds, alpha=0.5)
 
 
+from mpl_toolkits.mplot3d import Axes3D
+
+def plot_3d(x, c):
+    "x: the data.  c: optinal coloring of datapoints"
+    # WARNINI currently only for two classes
+    fig = plt.figure()
+    #     fig.clf()
+    ax = Axes3D(fig)
+    for i,c in zip([0,1], ['red', 'blue']):
+        ix = y==i
+        ax.plot(x[ix, 0], 
+                x[ix, 1], 
+                x[ix, 2], 'o', c=c, alpha=0.5)# label=my_labels[index]
+
+
+plt.show()
 """
 -----------------------------------------------------------------------------------------
 gereral stuff
