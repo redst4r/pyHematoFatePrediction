@@ -96,7 +96,7 @@ def plot_segmentation(I, I_mask):
 
 from mpl_toolkits.mplot3d import Axes3D
 
-def plot_3d(x, c):
+def plot_3d(x, y):
     "x: the data.  c: optinal coloring of datapoints"
     # WARNINI currently only for two classes
     fig = plt.figure()
@@ -127,3 +127,41 @@ def merge_image_and_seg(I, I_mask):
     seg_mask_c[:,:,0] = I_mask * 255
     output = cv2.addWeighted(seg_mask_c.astype('uint8'), alpha, Ic, 1-alpha, 0)
     return output
+
+
+def patch_box(x,y ,X_WINDOWSIZE_HALF, Y_WINDOWSIZE_HALF, imgShape ):
+
+    if x-X_WINDOWSIZE_HALF < 1:
+        xpad_left = 1+np.abs(x-X_WINDOWSIZE_HALF)
+        xstart = 1
+    else:
+        xstart = x-X_WINDOWSIZE_HALF
+        xpad_left = 0
+
+    if x+X_WINDOWSIZE_HALF > imgShape[1]:
+        xpad_right = x+X_WINDOWSIZE_HALF - imgShape[1]
+        xend = imgShape[1]
+    else:
+        xpad_right = 0
+        xend = x+X_WINDOWSIZE_HALF
+
+    ## y
+
+    if y-Y_WINDOWSIZE_HALF < 1:
+        ypad_top = 1+np.abs(y-Y_WINDOWSIZE_HALF)
+        ystart = 1
+    else:
+        ystart = y-Y_WINDOWSIZE_HALF
+        ypad_top = 0
+
+    if y+Y_WINDOWSIZE_HALF > imgShape[0]:
+        ypad_bottom = y+Y_WINDOWSIZE_HALF - imgShape[0]
+        yend = imgShape[0]
+    else:
+        ypad_bottom = 0
+        yend = y+Y_WINDOWSIZE_HALF
+
+    assert all([xstart>0, xend>0, ystart>0,yend>0 ])
+    assert all([xpad_left>=0, xpad_right>=0, ypad_top>=0,ypad_bottom>=0 ])
+
+    return (xstart, xend),(ystart, yend),  (xpad_left, xpad_right), (ypad_top, ypad_bottom)
