@@ -171,7 +171,7 @@ def patch_box(x,y ,X_WINDOWSIZE_HALF, Y_WINDOWSIZE_HALF, imgShape ):
 def tile_raster_images(X, img_dim, tile_shape, tile_spacing=(1, 1),
                        scale_rows_to_unit_interval=False,
                        output_pixel_vals=True,
-                       cmap=cm.gray,
+                       cmap=plt.cm.gray,
                        img_shape=None,
                        figsize=None):
     """
