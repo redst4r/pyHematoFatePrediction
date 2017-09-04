@@ -234,7 +234,7 @@ def tile_raster_images(X, img_dim, tile_shape, tile_spacing=(1, 1),
         # return out_array
 
 
-def tile_raster_RGB(X, tile_shape, tile_spacing, scale_rows_to_unit_interval=False):
+def tile_raster_RGB(X, tile_shape, tile_spacing, scale_rows_to_unit_interval=False, figsize=None):
     assert X.shape[3] == 3, 'works only for three channels'
     assert len(tile_shape) == 2
     assert len(tile_spacing) == 2
@@ -263,7 +263,10 @@ def tile_raster_RGB(X, tile_shape, tile_spacing, scale_rows_to_unit_interval=Fal
                 # output array
                 out_array[tile_row * (H + Hs): tile_row * (H + Hs) + H, tile_col * (W + Ws): tile_col * (W + Ws) + W, :] \
                     = this_img
-    plt.figure()
+    if figsize:
+        plt.figure(figsize=figsize)
+    else:
+        plt.figure()
     plt.imshow(out_array, interpolation='nearest')
 
 
